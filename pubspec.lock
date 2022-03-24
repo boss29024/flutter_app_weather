@@ -249,6 +249,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.4"
   http_multi_server:
     dependency: transitive
     description:
@@ -548,6 +555,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  weather:
+    dependency: "direct main"
+    description:
+      name: weather
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   web_socket_channel:
     dependency: transitive
     description:

@@ -69,7 +69,6 @@ class _HomePageState extends State<HomePage> {
                 children: [Text('พยากรณ์ 5วัน')],
               )),
             ),
-            ElevatedButton(onPressed: () {}, child: Text('Example'))
           ],
         ),
       ),

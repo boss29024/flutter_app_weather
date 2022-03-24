@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_weather_forecast/page/HomePage.dart';
+import 'package:flutter_app_weather_forecast/page/Setting.dart';
 
 void main() => runApp(const WeatherApp());
 
@@ -15,9 +16,11 @@ class _WeatherAppState extends State<WeatherApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Weather App',
+      theme: ThemeData(primarySwatch: Colors.blue, brightness: Brightness.dark),
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
+        '/setting': (context) =>  SettingPage(),
       },
     );
   }

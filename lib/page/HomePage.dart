@@ -1,32 +1,45 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final heightDevice = MediaQuery.of(context).size.height;
     final widthDevice = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('WeatherApp'),
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/setting');
+                  Navigator.pushNamed(context, '/example');
                 },
                 icon: Icon(Icons.settings))
           ],
         ),
-        body: Padding(
-          padding: EdgeInsets.all(10),
+        body: Container(
+          padding: EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _cloudIcon(),
-              _temprature(),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [_temprature(), _climate()],
+                ),
+              ),
               _location(),
+              SizedBox(
+                height: (heightDevice / 100) * 1,
+              ),
               _date(),
               SizedBox(
                 height: (heightDevice / 100) * 4,
@@ -113,11 +126,17 @@ class HomePage extends StatelessWidget {
   _date() {
     return Row(
       children: [
-        Text('Today'),
+        Text(
+          'Today',
+          style: TextStyle(fontSize: 18),
+        ),
         SizedBox(
           width: 10,
         ),
-        Text('24.03.2022')
+        Text(
+          '24.03.2022',
+          style: TextStyle(fontSize: 18),
+        )
       ],
     );
   }
@@ -129,21 +148,31 @@ class HomePage extends StatelessWidget {
         SizedBox(
           width: 10,
         ),
-        Text('City')
+        Text(
+          'City',
+          style: TextStyle(fontSize: 18),
+        )
       ],
+    );
+  }
+
+  _climate() {
+    return Text(
+      'แจ่มใส',
+      style: TextStyle(fontSize: 40, fontWeight: FontWeight.w100),
     );
   }
 
   _temprature() {
     return Text(
-      '-10',
+      '28',
       style: TextStyle(fontSize: 80, fontWeight: FontWeight.w100),
     );
   }
 
   _cloudIcon() {
     return Padding(
-      padding: const EdgeInsets.all(28),
+      padding: const EdgeInsets.all(20),
       child: Icon(
         Icons.cloud,
         size: 80,

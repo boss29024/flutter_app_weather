@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_weather_forecast/page/HomePage.dart';
 import 'package:flutter_app_weather_forecast/page/Setting.dart';
+import 'package:flutter_app_weather_forecast/page/example.dart';
 
 void main() => runApp(const WeatherApp());
 
@@ -20,7 +21,8 @@ class _WeatherAppState extends State<WeatherApp> {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/setting': (context) =>  SettingPage(),
+        '/setting': (context) => SettingPage(),
+        '/example': (context) => example(),
       },
     );
   }

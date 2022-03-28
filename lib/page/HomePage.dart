@@ -141,7 +141,11 @@ class _HomePageState extends State<HomePage> {
           scrollDirection: Axis.horizontal,
           itemCount: itmesHour.length,
           itemBuilder: (context, index) {
-            return Container(width: 50, child: CardhourlyWeather(time: '${dataForecast.current}',));
+            return Container(
+                width: 50,
+                child: CardhourlyWeather(
+                  time: '${dataForecast.current}',
+                ));
           }),
     );
   }

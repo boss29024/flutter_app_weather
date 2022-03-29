@@ -51,33 +51,16 @@ class _ForecastWeartherState extends State<ForecastWearther> {
           itemBuilder: (context, index) {
             return Container(
                 height: 50,
-                child: Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        forecastDay[index].astro?.sunrise != null
-                            ? '${forecastDay[index].astro?.sunrise}'
-                            : '',
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                          '${datetime.day}:${datetime.month}:${datetime.year}'),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text('maxTemp:'),
-                      Text(days[index].maxtempC != null
-                          ? '${days[index].maxtempC}'
-                          : '0.0'),
-                      Text('/avgTemp:'),
-                      Text(days[index].avgtempC != null
-                          ? '${days[index].avgtempC}'
-                          : '0.0')
-                    ],
-                  ),
+                child: CardWeeklyWeather(
+                  days: forecastDay[index].date != null
+                      ? '${forecastDay[index].date}'
+                      : '${datetime.day}:${datetime.month}:${datetime.year}',
+                  maxTemp: days[index].maxtempC != null
+                      ? '${days[index].maxtempC}'
+                      : '0.0',
+                  avgTemp: days[index].avgtempC != null
+                      ? '${days[index].avgtempC}'
+                      : '0.0',
                 ));
           }),
     );
@@ -98,7 +81,9 @@ class _ForecastWeartherState extends State<ForecastWearther> {
                 width: 50,
                 child: CardhourlyWeather(
                   time: '${datetime.hour}.00',
-                  temp: '${dataForecast.current?.tempC}',
+                  temp: hour[index].tempC != null
+                      ? '${hour[index].tempC}'
+                      : '0.0',
                 ));
           }),
     );

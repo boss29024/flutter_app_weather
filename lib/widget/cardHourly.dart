@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CardhourlyWeather extends StatelessWidget {
-  const CardhourlyWeather(
-      {Key? key, this.time = '16.39', this.temp = 0.0, this.icon = 'LOL'})
-      : super(key: key);
+  const CardhourlyWeather({
+    Key? key,
+    this.time = '16.39',
+    this.temp = '0.0',
+  }) : super(key: key);
 
   final String time;
-  final double temp;
-  final String icon;
+  final String temp;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,6 @@ class CardhourlyWeather extends StatelessWidget {
           children: [
             Text(time),
             Text('${temp}'),
-            Text(icon),
           ],
         ),
       ),

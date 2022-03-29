@@ -59,8 +59,8 @@ class Location {
 class Current {
   int? lastUpdatedEpoch;
   String? lastUpdated;
-  int? tempC;
-  int? tempF;
+  double? tempC;
+  double? tempF;
   int? isDay;
   Condition? condition;
 

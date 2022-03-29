@@ -1,36 +1,57 @@
 class ForecastWeekly {
+  Location? location;
   Current? current;
   Forecast? forecast;
-  Location? location;
 
-  ForecastWeekly({
-    this.current,
-    this.forecast,
-    this.location,
-  });
+  ForecastWeekly({this.location, this.current, this.forecast});
 
   ForecastWeekly.fromJson(Map<String, dynamic> json) {
+    location = json['location'] != null
+        ? new Location.fromJson(json['location'])
+        : null;
     current =
         json['current'] != null ? new Current.fromJson(json['current']) : null;
     forecast = json['forecast'] != null
         ? new Forecast.fromJson(json['forecast'])
         : null;
-    location = json['location'] != null
-        ? new Location.fromJson(json['location'])
-        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.location != null) {
+      data['location'] = this.location!.toJson();
+    }
     if (this.current != null) {
       data['current'] = this.current!.toJson();
     }
     if (this.forecast != null) {
       data['forecast'] = this.forecast!.toJson();
     }
-    if (this.location != null) {
-      data['location'] = this.location!.toJson();
-    }
+    return data;
+  }
+}
+
+class Location {
+  String? name;
+  String? region;
+  String? country;
+  String? localtime;
+
+  Location({this.name, this.region, this.country, this.localtime});
+
+  Location.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    region = json['region'];
+    country = json['country'];
+    localtime = json['localtime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['region'] = this.region;
+    data['country'] = this.country;
+    data['localtime'] = this.localtime;
     return data;
   }
 }
@@ -38,8 +59,8 @@ class ForecastWeekly {
 class Current {
   int? lastUpdatedEpoch;
   String? lastUpdated;
-  double? tempC;
-  double? tempF;
+  int? tempC;
+  int? tempF;
   int? isDay;
   Condition? condition;
 
@@ -73,28 +94,6 @@ class Current {
     if (this.condition != null) {
       data['condition'] = this.condition!.toJson();
     }
-    return data;
-  }
-}
-
-class Location {
-  String? region;
-  String? country;
-  String? localtime;
-
-  Location({this.region, this.country, this.localtime});
-
-  Location.fromJson(Map<String, dynamic> json) {
-    region = json['region'];
-    country = json['country'];
-    localtime = json['localtime'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['region'] = this.region;
-    data['country'] = this.country;
-    data['localtime'] = this.localtime;
     return data;
   }
 }
@@ -148,14 +147,16 @@ class Forecastday {
   String? date;
   int? dateEpoch;
   Day? day;
+  Astro? astro;
   List<Hour>? hour;
 
-  Forecastday({this.date, this.dateEpoch, this.day, this.hour});
+  Forecastday({this.date, this.dateEpoch, this.day, this.astro, this.hour});
 
   Forecastday.fromJson(Map<String, dynamic> json) {
     date = json['date'];
     dateEpoch = json['date_epoch'];
     day = json['day'] != null ? new Day.fromJson(json['day']) : null;
+    astro = json['astro'] != null ? new Astro.fromJson(json['astro']) : null;
     if (json['hour'] != null) {
       hour = <Hour>[];
       json['hour'].forEach((v) {
@@ -170,6 +171,9 @@ class Forecastday {
     data['date_epoch'] = this.dateEpoch;
     if (this.day != null) {
       data['day'] = this.day!.toJson();
+    }
+    if (this.astro != null) {
+      data['astro'] = this.astro!.toJson();
     }
     if (this.hour != null) {
       data['hour'] = this.hour!.map((v) => v.toJson()).toList();
@@ -212,6 +216,43 @@ class Day {
     data['mintemp_f'] = this.mintempF;
     data['avgtemp_c'] = this.avgtempC;
     data['avgtemp_f'] = this.avgtempF;
+    return data;
+  }
+}
+
+class Astro {
+  String? sunrise;
+  String? sunset;
+  String? moonrise;
+  String? moonset;
+  String? moonPhase;
+  String? moonIllumination;
+
+  Astro(
+      {this.sunrise,
+      this.sunset,
+      this.moonrise,
+      this.moonset,
+      this.moonPhase,
+      this.moonIllumination});
+
+  Astro.fromJson(Map<String, dynamic> json) {
+    sunrise = json['sunrise'];
+    sunset = json['sunset'];
+    moonrise = json['moonrise'];
+    moonset = json['moonset'];
+    moonPhase = json['moon_phase'];
+    moonIllumination = json['moon_illumination'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['sunrise'] = this.sunrise;
+    data['sunset'] = this.sunset;
+    data['moonrise'] = this.moonrise;
+    data['moonset'] = this.moonset;
+    data['moon_phase'] = this.moonPhase;
+    data['moon_illumination'] = this.moonIllumination;
     return data;
   }
 }

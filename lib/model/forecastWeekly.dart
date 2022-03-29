@@ -189,6 +189,7 @@ class Day {
   double? mintempF;
   double? avgtempC;
   double? avgtempF;
+  Condition? condition;
 
   Day({
     this.maxtempC,
@@ -197,6 +198,7 @@ class Day {
     this.mintempF,
     this.avgtempC,
     this.avgtempF,
+    this.condition,
   });
 
   Day.fromJson(Map<String, dynamic> json) {
@@ -206,6 +208,9 @@ class Day {
     mintempF = json['mintemp_f'];
     avgtempC = json['avgtemp_c'];
     avgtempF = json['avgtemp_f'];
+    condition = json['condition'] != null
+        ? new Condition.fromJson(json['condition'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -216,6 +221,9 @@ class Day {
     data['mintemp_f'] = this.mintempF;
     data['avgtemp_c'] = this.avgtempC;
     data['avgtemp_f'] = this.avgtempF;
+    if (this.condition != null) {
+      data['condition'] = this.condition!.toJson();
+    }
     return data;
   }
 }

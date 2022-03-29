@@ -52,6 +52,9 @@ class _ForecastWeartherState extends State<ForecastWearther> {
             return Container(
                 height: 50,
                 child: CardWeeklyWeather(
+                  icon: days[index].condition!.icon != null
+                      ? 'http:${days[index].condition!.icon}'
+                      : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
                   days: forecastDay[index].date != null
                       ? '${forecastDay[index].date}'
                       : '${datetime.day}:${datetime.month}:${datetime.year}',
@@ -84,6 +87,9 @@ class _ForecastWeartherState extends State<ForecastWearther> {
                   temp: hour[index].tempC != null
                       ? '${hour[index].tempC}'
                       : '0.0',
+                  icon: hour[index].condition?.icon != null
+                      ? 'http:${hour[index].condition?.icon}'
+                      : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
                 ));
           }),
     );

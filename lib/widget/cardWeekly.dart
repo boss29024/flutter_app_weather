@@ -4,13 +4,13 @@ class CardWeeklyWeather extends StatelessWidget {
   const CardWeeklyWeather(
       {Key? key,
       this.days = '28.03.2022',
-      this.maxTemp = 0.0,
-      this.lowTemp = 0.0})
+      this.maxTemp = '0.0',
+      this.avgTemp = '0.0',})
       : super(key: key);
 
   final String days;
-  final double maxTemp;
-  final double lowTemp;
+  final String maxTemp;
+  final String avgTemp;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CardWeeklyWeather extends StatelessWidget {
             SizedBox(
               width: (widthDevice / 100) * 50,
             ),
-            Text('${maxTemp}/${lowTemp}')
+            Text('maxTemp:${maxTemp}/avgTemp:${avgTemp}')
           ],
         ),
       ),

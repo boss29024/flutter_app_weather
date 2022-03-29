@@ -45,27 +45,29 @@ class _ForecastWeartherState extends State<ForecastWearther> {
           border: Border(
               top: BorderSide(color: Colors.white),
               bottom: BorderSide(color: Colors.white))),
-      child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: forecastDay.length,
-          itemBuilder: (context, index) {
-            return Container(
-                height: 50,
-                child: CardWeeklyWeather(
-                  icon: days[index].condition!.icon != null
-                      ? 'http:${days[index].condition!.icon}'
-                      : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
-                  days: forecastDay[index].date != null
-                      ? '${forecastDay[index].date}'
-                      : '${datetime.day}:${datetime.month}:${datetime.year}',
-                  maxTemp: days[index].maxtempC != null
-                      ? '${days[index].maxtempC}'
-                      : '0.0',
-                  avgTemp: days[index].avgtempC != null
-                      ? '${days[index].avgtempC}'
-                      : '0.0',
-                ));
-          }),
+      child: ListView.separated(
+        scrollDirection: Axis.vertical,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+              height: 50,
+              child: CardWeeklyWeather(
+                icon: days[index].condition!.icon != null
+                    ? 'http:${days[index].condition!.icon}'
+                    : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
+                days: forecastDay[index].date != null
+                    ? '${forecastDay[index].date}'
+                    : '${datetime.day}:${datetime.month}:${datetime.year}',
+                maxTemp: days[index].maxtempC != null
+                    ? '${days[index].maxtempC}'
+                    : '0.0',
+                avgTemp: days[index].avgtempC != null
+                    ? '${days[index].avgtempC}'
+                    : '0.0',
+              ));
+        },
+        separatorBuilder: (BuildContext context, int index) => Divider(),
+        itemCount: forecastDay.length,
+      ),
     );
   }
 
@@ -76,10 +78,9 @@ class _ForecastWeartherState extends State<ForecastWearther> {
           border: Border(
               top: BorderSide(color: Colors.white),
               bottom: BorderSide(color: Colors.white))),
-      child: ListView.builder(
+      child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          itemCount: hour.length,
-          itemBuilder: (context, index) {
+          itemBuilder: (BuildContext context, int index) {
             return Container(
                 width: 50,
                 child: CardhourlyWeather(
@@ -91,7 +92,9 @@ class _ForecastWeartherState extends State<ForecastWearther> {
                       ? 'http:${hour[index].condition?.icon}'
                       : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
                 ));
-          }),
+          },
+          separatorBuilder: (BuildContext context, int index) => Divider(),
+          itemCount: hour.length),
     );
   }
 

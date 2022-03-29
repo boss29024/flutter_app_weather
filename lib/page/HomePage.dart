@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_weather_forecast/model/currentWeather.dart';
-import 'package:flutter_app_weather_forecast/model/forecastWeekly.dart';
-import 'package:flutter_app_weather_forecast/widget/cardHourly.dart';
-import 'package:flutter_app_weather_forecast/widget/cardWeekly.dart';
+import 'package:flutter_app_weather_forecast/page/ForecastWeather.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -13,8 +11,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final dateTime = DateTime.now();
   var dataCurrent = CurrentWeather();
-  var dataForecast = ForecastWeekly();
+
   void getCurrentWeather() async {
     var dio = Dio();
     final response = await dio.get(
@@ -28,25 +27,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> getForecast() async {
-    var dio = Dio();
-    final response = await dio.get(
-        'http://api.weatherapi.com/v1/forecast.json?key=18d7b9d6de11454aaea54936222503&q=bangkok&q=bangkok&days=7&aqi=yes&alerts=no');
-
-    if (response.statusCode == 200) {
-      setState(() {
-        dataForecast = ForecastWeekly.fromJson(response.data);
-      });
-    } else {
-      print('error');
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     getCurrentWeather();
-    getForecast();
   }
 
   @override
@@ -79,75 +63,10 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: (heightDevice / 100) * 4,
               ),
-              _hourlyPrediction(),
-              SizedBox(
-                height: (heightDevice / 100) * 4,
-              ),
-              _weeklyPrediction(),
+              ForecastWearther()
             ],
           ),
         ));
-  }
-
-  final itmesWeek = [
-    '1',
-    '2',
-    '3',
-    '1',
-    '2',
-    '3',
-    '1',
-  ];
-
-  _weeklyPrediction() {
-    return Container(
-      height: 140,
-      decoration: const BoxDecoration(
-          border: Border(
-              top: BorderSide(color: Colors.white),
-              bottom: BorderSide(color: Colors.white))),
-      child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: itmesWeek.length,
-          itemBuilder: (context, index) {
-            return Container(height: 50, child: CardWeeklyWeather());
-          }),
-    );
-  }
-
-  final itmesHour = [
-    '1',
-    '2',
-    '3',
-    '1',
-    '2',
-    '3',
-    '1',
-    '2',
-    '3',
-    '1',
-    '2',
-    '3',
-  ];
-
-  _hourlyPrediction() {
-    return Container(
-      height: 100,
-      decoration: const BoxDecoration(
-          border: Border(
-              top: BorderSide(color: Colors.white),
-              bottom: BorderSide(color: Colors.white))),
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: itmesHour.length,
-          itemBuilder: (context, index) {
-            return Container(
-                width: 50,
-                child: CardhourlyWeather(
-                  time: '${dataForecast.current}',
-                ));
-          }),
-    );
   }
 
   _date() {
@@ -161,7 +80,9 @@ class _HomePageState extends State<HomePage> {
           width: 10,
         ),
         Text(
-          '${dataCurrent.location?.localtime}',
+          dataCurrent.location?.localtime != null
+              ? '${dataCurrent.location?.localtime}'
+              : '${dateTime.day}:${dateTime.month}:${dateTime.year}',
           style: TextStyle(fontSize: 18),
         ),
       ],
@@ -176,7 +97,9 @@ class _HomePageState extends State<HomePage> {
           width: 10,
         ),
         Text(
-          '${dataCurrent.location?.region}',
+          dataCurrent.location?.region != null
+              ? '${dataCurrent.location?.region}'
+              : 'bangkok',
           style: TextStyle(fontSize: 18),
         ),
       ],
@@ -185,17 +108,24 @@ class _HomePageState extends State<HomePage> {
 
   _temprature() {
     return Text(
-      '${dataCurrent.current?.tempC}',
+      dataCurrent.current?.tempC != null
+          ? '${dataCurrent.current?.tempC}'
+          : '0.0',
       style: TextStyle(fontSize: 80, fontWeight: FontWeight.w100),
     );
   }
 
   _cloudIcon() {
     return Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            Text('${dataCurrent.current?.condition!.icon}'),
+            Image.network(
+              dataCurrent.current?.condition!.icon != null
+                  ? 'http:${dataCurrent.current?.condition!.icon}'
+                  : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
+              fit: BoxFit.contain,
+            )
           ],
         ));
   }

@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_weather_forecast/model/forecastDaily.dart';
-import 'package:flutter_app_weather_forecast/widget/cardHourly.dart';
-import 'package:flutter_app_weather_forecast/widget/cardWeekly.dart';
+import 'package:intl/intl.dart';
+
+import 'dart:convert' as convert;
 
 class ForecastWearther extends StatefulWidget {
   ForecastWearther({Key? key}) : super(key: key);
@@ -12,11 +13,9 @@ class ForecastWearther extends StatefulWidget {
 }
 
 class _ForecastWeartherState extends State<ForecastWearther> {
-  List<Day> days = [];
-  List<Hour> hour = [];
-  List<Forecastday> forecastDay = [];
   final datetime = DateTime.now();
-  var dataForecast = ForecastDaily();
+  var forecastDaily = ForecastDaily();
+
   Future<void> getForecast() async {
     var dio = Dio();
     final response = await dio.get(
@@ -24,7 +23,7 @@ class _ForecastWeartherState extends State<ForecastWearther> {
 
     if (response.statusCode == 200) {
       setState(() {
-        dataForecast = ForecastDaily.fromJson(response.data);
+        forecastDaily = ForecastDaily.fromJson(response.data);
       });
     } else {
       print('error');
@@ -45,28 +44,41 @@ class _ForecastWeartherState extends State<ForecastWearther> {
           border: Border(
               top: BorderSide(color: Colors.white),
               bottom: BorderSide(color: Colors.white))),
-      child: ListView.separated(
+      child: ListView.builder(
         scrollDirection: Axis.vertical,
         itemBuilder: (BuildContext context, int index) {
           return Container(
               height: 50,
-              child: CardWeeklyWeather(
-                icon: days[index].condition!.icon != null
-                    ? 'http:${days[index].condition!.icon}'
-                    : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
-                days: forecastDay[index].date != null
-                    ? '${forecastDay[index].date}'
-                    : '${datetime.day}:${datetime.month}:${datetime.year}',
-                maxTemp: days[index].maxtempC != null
-                    ? '${days[index].maxtempC}'
-                    : '0.0',
-                avgTemp: days[index].avgtempC != null
-                    ? '${days[index].avgtempC}'
-                    : '0.0',
+              child: Card(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.network(
+                        forecastDaily.forecast!.forecastday![index].day
+                                    ?.condition!.icon !=
+                                null
+                            ? 'http:${forecastDaily.forecast!.forecastday![index].day?.condition!.icon}'
+                            : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
+                      ),
+                      Text(forecastDaily.forecast!.forecastday![index].date !=
+                              null
+                          ? '${forecastDaily.forecast!.forecastday![index].date}'
+                          : '${datetime.day}:${datetime.month}:${datetime.year}'),
+                      Text(
+                        forecastDaily.forecast!.forecastday![index].day
+                                    ?.avgtempC !=
+                                null
+                            ? 'avgTemp:${forecastDaily.forecast!.forecastday![index].day?.avgtempC}'
+                            : 'avgTemp: 0.0',
+                      )
+                    ],
+                  ),
+                ),
               ));
         },
-        separatorBuilder: (BuildContext context, int index) => Divider(),
-        itemCount: forecastDay.length,
+        itemCount: forecastDaily.forecast!.forecastday!.length,
       ),
     );
   }
@@ -78,43 +90,63 @@ class _ForecastWeartherState extends State<ForecastWearther> {
           border: Border(
               top: BorderSide(color: Colors.white),
               bottom: BorderSide(color: Colors.white))),
-      child: ListView.separated(
+      child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
+            DateTime tempDate = DateFormat("yyyy-MM-dd hh:mm").parse(
+                forecastDaily.forecast!.forecastday![0].hour![index].time
+                    .toString());
+            String formattedTime = DateFormat('HH:mm').format(tempDate);
             return Container(
                 width: 50,
-                child: CardhourlyWeather(
-                  time: '${datetime.hour}.00',
-                  temp: hour[index].tempC != null
-                      ? '${hour[index].tempC}'
-                      : '0.0',
-                  icon: hour[index].condition?.icon != null
-                      ? 'http:${hour[index].condition?.icon}'
-                      : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
+                child: Card(
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${formattedTime}'),
+                        Text(
+                          forecastDaily.forecast!.forecastday![0].hour![index]
+                                      .tempC !=
+                                  null
+                              ? '${forecastDaily.forecast!.forecastday![0].hour![index].tempC}'
+                              : '0.0',
+                        ),
+                        Image.network(
+                          forecastDaily.forecast!.forecastday![0].hour![index]
+                                      .condition?.icon !=
+                                  null
+                              ? 'http:${forecastDaily.forecast!.forecastday![0].hour![index].condition?.icon}'
+                              : 'http://cdn.weatherapi.com/weather/64x64/day/116.png',
+                        ),
+                      ],
+                    ),
+                  ),
                 ));
           },
-          separatorBuilder: (BuildContext context, int index) => Divider(),
-          itemCount: hour.length),
+          itemCount: forecastDaily.forecast!.forecastday![0].hour!.length),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final heightDevice = MediaQuery.of(context).size.height;
-    return Container(
-      padding: EdgeInsets.all(8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: (heightDevice / 100) * 2,
-          ),
-          _hourlyPrediction(),
-          SizedBox(
-            height: (heightDevice / 100) * 4,
-          ),
-          _weeklyPrediction(),
-        ],
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: (heightDevice / 100) * 2,
+            ),
+            _hourlyPrediction(),
+            SizedBox(
+              height: (heightDevice / 100) * 4,
+            ),
+            _weeklyPrediction(),
+          ],
+        ),
       ),
     );
   }

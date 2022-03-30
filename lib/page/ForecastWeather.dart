@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_weather_forecast/model/forecastWeekly.dart';
+import 'package:flutter_app_weather_forecast/model/forecastDaily.dart';
 import 'package:flutter_app_weather_forecast/widget/cardHourly.dart';
 import 'package:flutter_app_weather_forecast/widget/cardWeekly.dart';
 
@@ -16,7 +16,7 @@ class _ForecastWeartherState extends State<ForecastWearther> {
   List<Hour> hour = [];
   List<Forecastday> forecastDay = [];
   final datetime = DateTime.now();
-  var dataForecast = ForecastWeekly();
+  var dataForecast = ForecastDaily();
   Future<void> getForecast() async {
     var dio = Dio();
     final response = await dio.get(
@@ -24,7 +24,7 @@ class _ForecastWeartherState extends State<ForecastWearther> {
 
     if (response.statusCode == 200) {
       setState(() {
-        dataForecast = ForecastWeekly.fromJson(response.data);
+        dataForecast = ForecastDaily.fromJson(response.data);
       });
     } else {
       print('error');

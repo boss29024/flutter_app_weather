@@ -1,11 +1,11 @@
-class ForecastWeekly {
+class ForecastDaily {
   Location? location;
   Current? current;
   Forecast? forecast;
 
-  ForecastWeekly({this.location, this.current, this.forecast});
+  ForecastDaily({this.location, this.current, this.forecast});
 
-  ForecastWeekly.fromJson(Map<String, dynamic> json) {
+  ForecastDaily.fromJson(Map<String, dynamic> json) {
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : null;
@@ -35,14 +35,30 @@ class Location {
   String? name;
   String? region;
   String? country;
+  double? lat;
+  double? lon;
+  String? tzId;
+  int? localtimeEpoch;
   String? localtime;
 
-  Location({this.name, this.region, this.country, this.localtime});
+  Location(
+      {this.name,
+      this.region,
+      this.country,
+      this.lat,
+      this.lon,
+      this.tzId,
+      this.localtimeEpoch,
+      this.localtime});
 
   Location.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     region = json['region'];
     country = json['country'];
+    lat = json['lat'];
+    lon = json['lon'];
+    tzId = json['tz_id'];
+    localtimeEpoch = json['localtime_epoch'];
     localtime = json['localtime'];
   }
 
@@ -51,6 +67,10 @@ class Location {
     data['name'] = this.name;
     data['region'] = this.region;
     data['country'] = this.country;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
+    data['tz_id'] = this.tzId;
+    data['localtime_epoch'] = this.localtimeEpoch;
     data['localtime'] = this.localtime;
     return data;
   }
@@ -189,17 +209,22 @@ class Day {
   double? mintempF;
   double? avgtempC;
   double? avgtempF;
+  int? dailyWillItRain;
+  int? dailyWillItSnow;
   Condition? condition;
+  int? uv;
 
-  Day({
-    this.maxtempC,
-    this.maxtempF,
-    this.mintempC,
-    this.mintempF,
-    this.avgtempC,
-    this.avgtempF,
-    this.condition,
-  });
+  Day(
+      {this.maxtempC,
+      this.maxtempF,
+      this.mintempC,
+      this.mintempF,
+      this.avgtempC,
+      this.avgtempF,
+      this.dailyWillItRain,
+      this.dailyWillItSnow,
+      this.condition,
+      this.uv});
 
   Day.fromJson(Map<String, dynamic> json) {
     maxtempC = json['maxtemp_c'];
@@ -208,9 +233,12 @@ class Day {
     mintempF = json['mintemp_f'];
     avgtempC = json['avgtemp_c'];
     avgtempF = json['avgtemp_f'];
+    dailyWillItRain = json['daily_will_it_rain'];
+    dailyWillItSnow = json['daily_will_it_snow'];
     condition = json['condition'] != null
         ? new Condition.fromJson(json['condition'])
         : null;
+    uv = json['uv'];
   }
 
   Map<String, dynamic> toJson() {
@@ -221,9 +249,12 @@ class Day {
     data['mintemp_f'] = this.mintempF;
     data['avgtemp_c'] = this.avgtempC;
     data['avgtemp_f'] = this.avgtempF;
+    data['daily_will_it_rain'] = this.dailyWillItRain;
+    data['daily_will_it_snow'] = this.dailyWillItSnow;
     if (this.condition != null) {
       data['condition'] = this.condition!.toJson();
     }
+    data['uv'] = this.uv;
     return data;
   }
 }
@@ -272,15 +303,20 @@ class Hour {
   double? tempF;
   int? isDay;
   Condition? condition;
+  int? willItRain;
+  int? chanceOfRain;
+  int? uv;
 
-  Hour({
-    this.timeEpoch,
-    this.time,
-    this.tempC,
-    this.tempF,
-    this.isDay,
-    this.condition,
-  });
+  Hour(
+      {this.timeEpoch,
+      this.time,
+      this.tempC,
+      this.tempF,
+      this.isDay,
+      this.condition,
+      this.willItRain,
+      this.chanceOfRain,
+      this.uv});
 
   Hour.fromJson(Map<String, dynamic> json) {
     timeEpoch = json['time_epoch'];
@@ -291,6 +327,9 @@ class Hour {
     condition = json['condition'] != null
         ? new Condition.fromJson(json['condition'])
         : null;
+    willItRain = json['will_it_rain'];
+    chanceOfRain = json['chance_of_rain'];
+    uv = json['uv'];
   }
 
   Map<String, dynamic> toJson() {
@@ -303,6 +342,9 @@ class Hour {
     if (this.condition != null) {
       data['condition'] = this.condition!.toJson();
     }
+    data['will_it_rain'] = this.willItRain;
+    data['chance_of_rain'] = this.chanceOfRain;
+    data['uv'] = this.uv;
     return data;
   }
 }

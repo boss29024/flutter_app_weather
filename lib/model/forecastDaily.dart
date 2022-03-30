@@ -212,7 +212,6 @@ class Day {
   int? dailyWillItRain;
   int? dailyWillItSnow;
   Condition? condition;
-  int? uv;
 
   Day(
       {this.maxtempC,
@@ -223,8 +222,7 @@ class Day {
       this.avgtempF,
       this.dailyWillItRain,
       this.dailyWillItSnow,
-      this.condition,
-      this.uv});
+      this.condition,});
 
   Day.fromJson(Map<String, dynamic> json) {
     maxtempC = json['maxtemp_c'];
@@ -238,7 +236,6 @@ class Day {
     condition = json['condition'] != null
         ? new Condition.fromJson(json['condition'])
         : null;
-    uv = json['uv'];
   }
 
   Map<String, dynamic> toJson() {
@@ -254,7 +251,6 @@ class Day {
     if (this.condition != null) {
       data['condition'] = this.condition!.toJson();
     }
-    data['uv'] = this.uv;
     return data;
   }
 }
@@ -303,20 +299,15 @@ class Hour {
   double? tempF;
   int? isDay;
   Condition? condition;
-  int? willItRain;
-  int? chanceOfRain;
-  int? uv;
 
-  Hour(
-      {this.timeEpoch,
-      this.time,
-      this.tempC,
-      this.tempF,
-      this.isDay,
-      this.condition,
-      this.willItRain,
-      this.chanceOfRain,
-      this.uv});
+  Hour({
+    this.timeEpoch,
+    this.time,
+    this.tempC,
+    this.tempF,
+    this.isDay,
+    this.condition,
+  });
 
   Hour.fromJson(Map<String, dynamic> json) {
     timeEpoch = json['time_epoch'];
@@ -327,9 +318,6 @@ class Hour {
     condition = json['condition'] != null
         ? new Condition.fromJson(json['condition'])
         : null;
-    willItRain = json['will_it_rain'];
-    chanceOfRain = json['chance_of_rain'];
-    uv = json['uv'];
   }
 
   Map<String, dynamic> toJson() {
@@ -342,9 +330,6 @@ class Hour {
     if (this.condition != null) {
       data['condition'] = this.condition!.toJson();
     }
-    data['will_it_rain'] = this.willItRain;
-    data['chance_of_rain'] = this.chanceOfRain;
-    data['uv'] = this.uv;
     return data;
   }
 }

@@ -40,8 +40,6 @@ class _HomePageState extends State<HomePage> {
     if (response.statusCode == 200) {
       setState(() {
         forecastDaily = ForecastDaily.fromJson(response.data);
-        print(forecastDaily.forecast!.forecastday!.length);
-        print(forecastDaily.forecast!.forecastday![0].hour!.length);
         isloading = false;
       });
     } else {

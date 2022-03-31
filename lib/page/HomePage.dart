@@ -95,7 +95,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ));
         },
-        itemCount: forecastDaily.forecast!.forecastday!.length,
+        itemCount: forecastDaily.forecast!.forecastday != null
+            ? forecastDaily.forecast!.forecastday!.length
+            : 0,
       ),
     );
   }
@@ -141,7 +143,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ));
           },
-          itemCount: forecastDaily.forecast!.forecastday![0].hour!.length),
+          itemCount: forecastDaily.forecast!.forecastday![0].hour != null
+              ? forecastDaily.forecast!.forecastday![0].hour!.length
+              : 0),
     );
   }
 

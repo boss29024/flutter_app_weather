@@ -18,7 +18,7 @@ class _WeatherAppState extends State<WeatherApp> {
       theme: ThemeData(primarySwatch: Colors.blue, brightness: Brightness.dark),
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(),
+        '/': (context) => const HomePage(),
       },
     );
   }

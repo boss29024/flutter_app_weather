@@ -6,7 +6,7 @@ import 'package:flutter_app_weather_forecast/model/forecastDaily.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     getForecast();
   }
 
-  _weeklyPrediction() {
+  dynamic _weeklyPrediction() {
     return Container(
       height: 150,
       decoration: const BoxDecoration(
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _hourlyPrediction() {
+  dynamic _hourlyPrediction() {
     return Container(
       height: 100,
       decoration: const BoxDecoration(

@@ -40,13 +40,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('WeatherApp'),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/example');
-                },
-                icon: Icon(Icons.settings))
-          ],
         ),
         body: Container(
           padding: EdgeInsets.all(8),

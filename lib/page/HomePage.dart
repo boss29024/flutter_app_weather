@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> getForecast() async {
+  void getForecast() async {
     var dio = Dio();
     final response = await dio.get(
         'http://api.weatherapi.com/v1/forecast.json?key=18d7b9d6de11454aaea54936222503&q=bangkok&days=7&aqi=no&alerts=no');
@@ -40,6 +40,8 @@ class _HomePageState extends State<HomePage> {
     if (response.statusCode == 200) {
       setState(() {
         forecastDaily = ForecastDaily.fromJson(response.data);
+        print(forecastDaily.forecast!.forecastday!.length);
+        print(forecastDaily.forecast!.forecastday![0].hour!.length);
         isloading = false;
       });
     } else {
@@ -56,7 +58,7 @@ class _HomePageState extends State<HomePage> {
 
   _weeklyPrediction() {
     return Container(
-      height: 140,
+      height: 150,
       decoration: const BoxDecoration(
           border: Border(
               top: BorderSide(color: Colors.white),
